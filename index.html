@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia do Ton | Ton Visagista</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Oswald:wght@300;400;600&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Configurações do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#d97706',
+                            600: '#b45309',
+                        },
+                        dark: {
+                            900: '#111111',
+                            800: '#1a1a1a',
+                            700: '#2a2a2a',
+                            600: '#333333'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                        script: ['"Kaushan Script"', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+                        'texture': "url('https://www.transparenttextures.com/patterns/dark-leather.png')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Efeitos personalizados */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hover-zoom img {
+            transition: transform 0.5s ease;
+        }
+
+        .hover-zoom:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Animação do botão do WhatsApp */
+        @keyframes pulse-custom {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        .whatsapp-float {
+            animation: pulse-custom 2s infinite;
+        }
+
+        /* Pattern overlay para dar textura */
+        .bg-texture {
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.05;
+        }
+
+        /* --- Scroll Animations --- */
+        .animate-hidden {
+            opacity: 0;
+            transition: all 0.8s ease-out;
+        }
+
+        /* Começa um pouco abaixo */
+        .slide-up {
+            transform: translateY(40px);
+        }
+
+        /* Começa um pouco à esquerda */
+        .slide-right {
+            transform: translateX(-40px);
+        }
+
+        /* Começa um pouco à direita */
+        .slide-left {
+            transform: translateX(40px);
+        }
+
+        /* Começa menor */
+        .zoom-in {
+            transform: scale(0.95);
+        }
+
+        /* Estado final quando visível */
+        .is-visible {
+            opacity: 1 !important;
+            transform: translate(0, 0) scale(1) !important;
+        }
+    </style>
+</head>
+
+<body class="bg-dark-900 text-gray-200 font-sans antialiased">
+
+    <!-- Header / Navbar -->
+    <header id="header"
+        class="fixed w-full z-50 transition-all duration-300 bg-dark-900/95 border-b border-dark-700 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-3xl md:text-4xl font-script text-white hover:text-gold-500 transition-colors">
+                Barbearia <span class="text-gold-500">DoTon</span>
+            </a>
+
+            <!-- Menu Desktop -->
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="#home"
+                    class="hover:text-gold-400 transition-colors text-sm uppercase tracking-wider font-medium">Início</a>
+                <a href="#servicos"
+                    class="hover:text-gold-400 transition-colors text-sm uppercase tracking-wider font-medium">Serviços</a>
+                <a href="#clube"
+                    class="text-gold-500 hover:text-white transition-colors text-sm uppercase tracking-wider font-bold"><i
+                        class="fas fa-crown mr-1"></i> Clube Ton</a>
+                <a href="#equipe"
+                    class="hover:text-gold-400 transition-colors text-sm uppercase tracking-wider font-medium">Equipe</a>
+                <a href="#loja"
+                    class="hover:text-gold-400 transition-colors text-sm uppercase tracking-wider font-medium">Loja</a>
+                <a href="#contato"
+                    class="bg-gold-600 hover:bg-gold-500 text-white px-5 py-2 rounded font-display font-bold uppercase tracking-wide transition-all transform hover:scale-105">
+                    Agendar
+                </a>
+            </nav>
+
+            <!-- Menu Mobile Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gold-500 text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-t border-dark-700 absolute w-full z-50">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="#home" class="block hover:text-gold-400 font-display uppercase tracking-wider">Início</a>
+                <a href="#servicos" class="block hover:text-gold-400 font-display uppercase tracking-wider">Serviços</a>
+                <a href="#clube" class="block text-gold-500 font-bold font-display uppercase tracking-wider">Clube
+                    Ton</a>
+                <a href="#equipe" class="block hover:text-gold-400 font-display uppercase tracking-wider">Equipe</a>
+                <a href="#loja" class="block hover:text-gold-400 font-display uppercase tracking-wider">Loja</a>
+                <a href="#contato" class="block text-gold-500 font-bold font-display uppercase tracking-wider">Agendar
+                    Agora</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home"
+        class="relative h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/50 to-dark-900"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-16 animate-hidden zoom-in">
+            <!-- Texto removido: Sua Casa, Nossa Casa -->
+
+            <!-- Ajuste: Gradiente mais vivo (amarelo vibrante) e pb-4 para não cortar a base das letras -->
+            <h1
+                class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 text-shadow leading-tight pb-4">
+                MAIS QUE UM CORTE<br>
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-amber-500 drop-shadow-sm">UMA
+                    EXPERIÊNCIA</span>
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                Referência em Visagismo e atendimento Classe A. Aqui você coloca o estilo em dia e se sente em casa.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#contato"
+                    class="bg-gold-600 hover:bg-gold-500 text-white px-8 py-4 rounded font-display font-bold uppercase tracking-widest text-lg transition-all transform hover:scale-105 shadow-lg shadow-gold-600/20 border-b-4 border-gold-700 hover:border-gold-600">
+                    Agendar Horário
+                </a>
+                <a href="#clube"
+                    class="border border-white/30 hover:border-gold-500 hover:text-gold-500 text-white px-8 py-4 rounded font-display font-bold uppercase tracking-widest text-lg transition-all bg-black/40 backdrop-blur-sm flex items-center justify-center gap-2">
+                    <i class="fas fa-crown text-gold-500"></i> Conheça o Clube
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços Premium -->
+    <section id="servicos" class="py-20 bg-dark-900 relative">
+        <div class="absolute inset-0 bg-texture z-0"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div
+                class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-800 pb-6 animate-hidden slide-up">
+                <div>
+                    <span class="text-gold-500 font-display uppercase tracking-widest text-sm font-bold">Nossos
+                        Serviços</span>
+                    <h2 class="text-4xl font-display font-bold text-white mt-2">O QUE VOCÊ PRECISA?</h2>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="#contato"
+                        class="text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider">Ver
+                        tabela completa <i class="fas fa-arrow-right ml-2"></i></a>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Visagismo -->
+                <div
+                    class="bg-dark-800 hover:bg-dark-700 p-8 rounded border-l-4 border-gold-600 transition-all group animate-hidden slide-up">
+                    <div class="flex justify-between items-center mb-4">
+                        <i
+                            class="fas fa-id-card-alt text-3xl text-gold-500 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-display font-bold text-white text-xl">R$ 80,00</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-2">CONSULTORIA VISAGISTA</h3>
+                    <p class="text-gray-400 text-sm">Análise do formato do rosto e consultoria completa para definir o
+                        estilo que mais valoriza sua imagem.</p>
+                </div>
+
+                <!-- Barba Terapia -->
+                <div class="bg-dark-800 hover:bg-dark-700 p-8 rounded border-l-4 border-transparent hover:border-gold-600 transition-all group animate-hidden slide-up"
+                    style="transition-delay: 100ms;">
+                    <div class="flex justify-between items-center mb-4">
+                        <i
+                            class="fas fa-hot-tub text-3xl text-gray-500 group-hover:text-gold-500 transition-colors"></i>
+                        <span class="font-display font-bold text-white text-xl">R$ 40,00</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-2">BARBOTERAPIA</h3>
+                    <p class="text-gray-400 text-sm">Relaxamento com toalha quente, óleos essenciais e massagem facial.
+                        O cuidado que sua barba merece.</p>
+                </div>
+
+                <!-- Kids -->
+                <div class="bg-dark-800 hover:bg-dark-700 p-8 rounded border-l-4 border-blue-500 transition-all group relative overflow-hidden animate-hidden slide-up"
+                    style="transition-delay: 200ms;">
+                    <div
+                        class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider">
+                        Espaço Kids</div>
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-gamepad text-3xl text-blue-500 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-display font-bold text-white text-xl">R$ 40,00</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-2">TON KIDS</h3>
+                    <p class="text-gray-400 text-sm">Atendimento especial para crianças, com paciência e diversão. Corte
+                        moderno para os pequenos.</p>
+                </div>
+
+                <!-- Depilação -->
+                <div
+                    class="bg-dark-800 hover:bg-dark-700 p-8 rounded border-l-4 border-transparent hover:border-gold-600 transition-all group animate-hidden slide-up">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-leaf text-3xl text-gray-500 group-hover:text-gold-500 transition-colors"></i>
+                        <span class="font-display font-bold text-white text-xl">R$ 25,00</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-2">DEPILAÇÃO (NARIZ/ORELHA)</h3>
+                    <p class="text-gray-400 text-sm">Cera especial quente para remoção de pelos indesejados no nariz e
+                        orelha. Higiene e estética.</p>
+                </div>
+
+                <!-- Prótese/Química -->
+                <div class="bg-dark-800 hover:bg-dark-700 p-8 rounded border-l-4 border-transparent hover:border-gold-600 transition-all group animate-hidden slide-up"
+                    style="transition-delay: 100ms;">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-flask text-3xl text-gray-500 group-hover:text-gold-500 transition-colors"></i>
+                        <span class="font-display font-bold text-white text-xl">Sob Consulta</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-2">QUÍMICA & PRÓTESE</h3>
+                    <p class="text-gray-400 text-sm">Platinados, progressiva masculina e aplicação/manutenção de prótese
+                        capilar com naturalidade.</p>
+                </div>
+
+                <!-- Corte -->
+                <div class="bg-dark-800 hover:bg-dark-700 p-8 rounded border-l-4 border-transparent hover:border-gold-600 transition-all group animate-hidden slide-up"
+                    style="transition-delay: 200ms;">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-cut text-3xl text-gray-500 group-hover:text-gold-500 transition-colors"></i>
+                        <span class="font-display font-bold text-white text-xl">R$ 50,00</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-2">CORTE PREMIUM</h3>
+                    <p class="text-gray-400 text-sm">Lavagem, corte técnico na tesoura/máquina e finalização com
+                        produtos de alta fixação.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clube de Assinatura (Ideia inspirada em grandes barbearias) -->
+    <section id="clube" class="py-20 bg-gold-600 relative">
+        <div class="container mx-auto px-6 text-center relative z-10 animate-hidden zoom-in">
+            <i class="fas fa-crown text-6xl text-dark-900 mb-6 animate-bounce"></i>
+            <h2 class="text-4xl lg:text-5xl font-display font-bold text-dark-900 mb-4">CLUBE DO TON</h2>
+            <p class="text-dark-900 font-medium text-xl max-w-2xl mx-auto mb-8">
+                Por um valor fixo mensal, você corta o cabelo e faz a barba quantas vezes quiser. Mantenha o estilo
+                sempre em dia.
+            </p>
+            <div
+                class="bg-dark-900 p-8 rounded-lg max-w-md mx-auto shadow-2xl transform hover:scale-105 transition-transform">
+                <h3 class="text-gold-500 font-display text-2xl mb-2">PLANO VIP</h3>
+                <div class="text-white text-5xl font-bold font-display mb-4">R$ 149<span
+                        class="text-xl text-gray-500">/mês</span></div>
+                <ul class="text-left text-gray-300 space-y-3 mb-8">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Cortes Ilimitados</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Barba Ilimitada</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Preferência na agenda</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> 10% OFF na Loja</li>
+                </ul>
+                <a href="https://wa.me/5544991023271?text=Quero%20saber%20mais%20sobre%20o%20Clube%20do%20Ton"
+                    target="_blank"
+                    class="block w-full bg-gold-600 hover:bg-gold-500 text-white font-bold py-3 rounded uppercase tracking-widest transition-colors">
+                    Assinar Agora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipe (Alterado: Foco no Fundador) -->
+    <section id="equipe" class="py-20 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-hidden slide-up">
+                <span class="text-gold-500 font-display uppercase tracking-widest text-sm font-bold">Fundador</span>
+                <h2 class="text-4xl font-display font-bold text-white mt-2">TON VISAGISTA</h2>
+                <div class="w-24 h-1 bg-gold-600 mx-auto mt-4"></div>
+            </div>
+
+            <div class="flex justify-center">
+                <!-- Único Card Centralizado -->
+                <div
+                    class="bg-dark-900 rounded-lg overflow-hidden group max-w-md w-full shadow-2xl border border-dark-700 hover:border-gold-600 transition-colors animate-hidden zoom-in">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <!-- Imagem para substituição -->
+                        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Ton Visagista"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0">
+
+                        <!-- Sobreposição de Texto na imagem -->
+                        <div
+                            class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-8 pt-24">
+                            <p class="text-gold-500 font-bold uppercase tracking-widest text-xs mb-1">Especialista em
+                                Visagismo</p>
+                            <h3 class="text-white font-display text-3xl font-bold">Ton Visagista</h3>
+                            <p class="text-gray-400 mt-2 text-sm italic">"Transformando estilo em identidade."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loja / Produtos -->
+    <section id="loja" class="py-20 bg-dark-900 border-y border-dark-800 relative overflow-hidden">
+        <!-- Background Element -->
+        <div
+            class="absolute top-0 right-0 w-64 h-64 bg-gold-600 rounded-full blur-[100px] opacity-10 pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 animate-hidden slide-left">
+                <div>
+                    <span class="text-gold-500 font-display uppercase tracking-widest text-sm font-bold">Store</span>
+                    <h2 class="text-4xl font-display font-bold text-white mt-2">ESTILO COMPLETO</h2>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Perfumaria -->
+                <div
+                    class="bg-dark-800 rounded flex flex-col md:flex-row overflow-hidden border border-dark-700 group hover:border-gold-600 transition-colors animate-hidden slide-right">
+                    <div class="md:w-2/5 h-64 md:h-auto overflow-hidden">
+                        <img src="https://www.giraofertas.com.br/wp-content/uploads/2024/10/MYSLF-Le-Parfum-Yves-Saint-Laurent-Masculino-04.jpg"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 md:w-3/5 flex flex-col justify-center">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Perfumaria Importada</h3>
+                        <p class="text-gray-400 text-sm mb-4">Fragrâncias que marcam presença. 1 Million, Invictus,
+                            Ferrari e mais.</p>
+                        <a href="#contato"
+                            class="text-gold-500 font-bold uppercase tracking-wider text-xs hover:text-white transition-colors">Ver
+                            catálogo <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Vestuário -->
+                <div class="bg-dark-800 rounded flex flex-col md:flex-row overflow-hidden border border-dark-700 group hover:border-gold-600 transition-colors animate-hidden slide-left"
+                    style="transition-delay: 200ms;">
+                    <div class="md:w-2/5 h-64 md:h-auto overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 md:w-3/5 flex flex-col justify-center">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Vestuário & Acessórios</h3>
+                        <p class="text-gray-400 text-sm mb-4">Bonés, camisetas longline e carteiras de couro. Moda
+                            Streetwear.</p>
+                        <a href="#contato"
+                            class="text-gold-500 font-bold uppercase tracking-wider text-xs hover:text-white transition-colors">Ver
+                            catálogo <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria / Instagram -->
+    <section id="galeria" class="py-20 bg-dark-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12 animate-hidden slide-up">
+                <i class="fab fa-instagram text-4xl text-white mb-4"></i>
+                <h2 class="text-3xl font-display font-bold text-white">@BARBEARIA.DO.TON</h2>
+                <p class="text-gray-500 text-sm mt-2">Siga a gente e acompanhe os cortes do dia a dia</p>
+            </div>
+
+            <!-- Grid container vazio, será preenchido pelo JS -->
+            <div id="gallery-grid"
+                class="grid grid-cols-2 md:grid-cols-4 gap-2 auto-rows-[200px] animate-hidden zoom-in">
+                <!-- Conteúdo gerado via Javascript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos (Parallax) -->
+    <section class="py-24 bg-fixed bg-center bg-cover relative"
+        style="background-image: url('https://images.unsplash.com/photo-1532710093739-9470acff878f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <div class="absolute inset-0 bg-black/80"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center animate-hidden zoom-in">
+            <div class="max-w-3xl mx-auto border-2 border-gold-600/30 p-10 rounded bg-black/20 backdrop-blur-sm">
+                <div class="flex justify-center mb-6 text-gold-500 text-sm">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <h3 class="text-xl md:text-2xl font-display font-light text-white italic mb-6">
+                    "Atendimento de primeira. O ambiente é sensacional e o Ton é um mestre no visagismo. Recomendo o
+                    Clube, vale muito a pena!"
+                </h3>
+                <p class="text-white font-bold font-display uppercase tracking-wider">Ricardo Oliveira</p>
+                <p class="text-gray-400 text-xs mt-1">Membro do Clube Ton</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Localização e Contato -->
+    <section id="contato" class="bg-dark-900 border-t border-dark-800">
+        <div class="flex flex-col md:flex-row">
+            <!-- Informações -->
+            <div
+                class="w-full md:w-1/2 p-12 lg:p-20 flex flex-col justify-center bg-dark-900 animate-hidden slide-right">
+                <span class="text-gold-500 font-display uppercase tracking-widest text-sm font-bold mb-2">Contato</span>
+                <h2 class="text-4xl font-display font-bold text-white mb-8">ONDE ESTAMOS</h2>
+
+                <div class="space-y-8">
+                    <!-- Unidade Matriz -->
+                    <div class="border-l-2 border-gold-600 pl-6">
+                        <h4 class="text-white font-bold uppercase tracking-wider mb-2 text-lg">Unidade Matriz</h4>
+                        <p class="text-gray-400 flex items-start gap-3 mb-2">
+                            <i class="fas fa-map-marker-alt text-gold-500 mt-1"></i>
+                            <span>Av. Pedro Taques 4351 Sala 01<br>Jardim Alvorada 3, Maringá - PR</span>
+                        </p>
+                        <p class="text-gray-400 flex items-center gap-3">
+                            <i class="fas fa-phone-alt text-gold-500"></i>
+                            (44) 99102-3271
+                        </p>
+                    </div>
+
+                    <div class="pl-6">
+                        <h4 class="text-white font-bold uppercase tracking-wider mb-2 text-sm text-gray-500">Horário de
+                            Funcionamento</h4>
+                        <div class="grid grid-cols-2 gap-4 text-gray-300 text-sm">
+                            <div>Seg - Sex</div>
+                            <div class="text-right">09:00 - 20:00</div>
+                            <div>Sábado</div>
+                            <div class="text-right">09:00 - 18:00</div>
+                            <div>Domingo</div>
+                            <div class="text-right text-red-500">Fechado</div>
+                        </div>
+                    </div>
+
+                    <div class="pl-6 pt-4">
+                        <a href="https://wa.me/5544991023271?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio%20com%20o%20Ton!"
+                            target="_blank"
+                            class="inline-flex items-center justify-center w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded transition-colors uppercase tracking-widest">
+                            <i class="fab fa-whatsapp text-2xl mr-2"></i> Agendar pelo WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapa -->
+            <div class="w-full md:w-1/2 min-h-[500px] bg-dark-800 relative animate-hidden zoom-in"
+                style="transition-delay: 200ms;">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3661.123456789012!2d-51.92528!3d-23.42099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ecd7b0b0b0b0b1%3A0x0!2sAv.%20Pedro%20Taques%2C%204351%20-%20Jardim%20Alvorada%2C%20Maring%C3%A1%20-%20PR%2C%2087035-376!5e0!3m2!1spt-BR!2sbr!4v1689615000000"
+                    width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-dark-800">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <a href="#" class="text-2xl font-script text-white block mb-2">
+                    Barbearia <span class="text-gold-500">DoTon</span>
+                </a>
+                <p class="text-gray-600 text-sm">© 2024 Todos os direitos reservados.</p>
+            </div>
+
+            <div class="flex gap-6">
+                <a href="#" class="text-gray-500 hover:text-white transition-colors"><i
+                        class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors"><i
+                        class="fab fa-facebook text-xl"></i></a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors"><i
+                        class="fab fa-tiktok text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://wa.me/5544991023271?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio%20com%20o%20Ton!"
+        target="_blank"
+        class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-50 whatsapp-float transition-all transform hover:scale-110">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        // Menu Mobile Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Fechar menu ao clicar em um link
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Mudar cor do header ao rolar
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-dark-900', 'shadow-lg');
+                header.classList.remove('bg-dark-900/95');
+            } else {
+                header.classList.remove('bg-dark-900', 'shadow-lg');
+                header.classList.add('bg-dark-900/95');
+            }
+        });
+
+        // --- SCRIPT GALERIA ALEATÓRIA (SIMULANDO INSTAGRAM) ---
+        const instaImages = [
+            "https://images.unsplash.com/photo-1599351431202-6e0000a40bc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1503951914875-befbb7135952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1593702295094-aea8c5c13d73?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1512690459411-b9245aed1d1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+        ];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            const shuffledImages = shuffleArray([...instaImages]);
+
+            let htmlContent = '';
+
+            for (let i = 0; i < 8; i++) {
+                const imgUrl = shuffledImages[i];
+                htmlContent += `
+                <div class="overflow-hidden relative group cursor-pointer hover-zoom animate-fade-in border border-gray-800">
+                    <img src="${imgUrl}" alt="Foto Galeria ${i}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i class="fab fa-instagram text-2xl text-white"></i>
+                    </div>
+                </div>`;
+            }
+
+            grid.innerHTML = htmlContent;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderGallery);
+
+        // --- SCROLL ANIMATION OBSERVER ---
+        // Observa elementos para disparar animações quando entram na tela
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Dispara quando 10% do elemento está visível
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Remove observador após animar
+                }
+            });
+        }, observerOptions);
+
+        // Seleciona todos os elementos com a classe .animate-hidden
+        document.querySelectorAll('.animate-hidden').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
