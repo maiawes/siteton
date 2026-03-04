@@ -606,18 +606,7 @@
             }
         });
 
-        // --- SCRIPT GALERIA ALEATÓRIA (MISTURA MIDIA LOCAL COM INSTAL) ---
-        const instaImages = [
-            "https://images.unsplash.com/photo-1599351431202-6e0000a40bc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1503951914875-befbb7135952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1593702295094-aea8c5c13d73?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1512690459411-b9245aed1d1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-        ];
-
+        // --- SCRIPT GALERIA ALEATÓRIA (SOMENTE MIDIA LOCAL) ---
         const midiaImages = [
             "midia/0.jpg",
             "midia/1.jpg",
@@ -639,21 +628,14 @@
 
         function renderGallery() {
             const grid = document.getElementById('gallery-grid');
+            // Como temos exatas 8 imagens na pasta "midia" e 8 espaços, 
+            // basta embaralhar o array uma vez e iterar sobre ele.
             const shuffledMidia = shuffleArray([...midiaImages]);
-            const shuffledInsta = shuffleArray([...instaImages]);
 
             let htmlContent = '';
-            let midiaIndex = 0;
-            let instaIndex = 0;
 
             for (let i = 0; i < 8; i++) {
-                // Posições-alvo para imagens da pasta "midia": 0, 1, 2, 3 e 6
-                let imgUrl = "";
-                if (i === 0 || i === 1 || i === 2 || i === 3 || i === 6) {
-                    imgUrl = shuffledMidia[midiaIndex++];
-                } else {
-                    imgUrl = shuffledInsta[instaIndex++];
-                }
+                const imgUrl = shuffledMidia[i];
 
                 htmlContent += `
                 <div class="overflow-hidden relative group cursor-pointer hover-zoom animate-fade-in border border-gray-800">
